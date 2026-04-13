@@ -4,7 +4,7 @@
   --text: rgba(255, 255, 255, 0.96);
   --text-soft: rgba(255, 255, 255, 0.72);
   --text-faint: rgba(255, 255, 255, 0.4);
-  --text-ghost: rgba(255, 255, 255, 0.032);
+  --text-ghost: rgba(255, 255, 255, 0.03);
 
   --line: rgba(255, 255, 255, 0.1);
   --line-soft: rgba(255, 255, 255, 0.05);
@@ -13,7 +13,7 @@
   --accent: #f58220;
   --accent-soft: rgba(245, 130, 32, 0.18);
   --accent-faint: rgba(245, 130, 32, 0.08);
-  --accent-glow: rgba(245, 130, 32, 0.34);
+  --accent-glow: rgba(245, 130, 32, 0.3);
 
   --max: 1720px;
   --pad-x: clamp(22px, 4vw, 76px);
@@ -23,6 +23,7 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-liquid: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 * {
@@ -37,7 +38,7 @@ body {
   margin: 0;
   background:
     radial-gradient(circle at 12% 82%, rgba(245,130,32,0.045), transparent 34%),
-    radial-gradient(circle at 84% 12%, rgba(255,255,255,0.022), transparent 24%),
+    radial-gradient(circle at 84% 12%, rgba(255,255,255,0.02), transparent 24%),
     linear-gradient(180deg, #050505 0%, #050505 52%, #070707 100%);
   color: var(--text);
   font-family: "Inter", sans-serif;
@@ -49,6 +50,18 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   cursor: none;
+}
+
+/* fixed film grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
 ::selection {
@@ -100,23 +113,6 @@ button,
   background:
     radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,0.06) 78%, rgba(0,0,0,0.18) 100%);
   opacity: 0.95;
-}
-
-.grain {
-  position: fixed;
-  inset: -100%;
-  width: 300%;
-  height: 300%;
-  pointer-events: none;
-  z-index: -2;
-  opacity: 0.026;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.92) 0.6px, transparent 0.8px),
-    radial-gradient(circle at 72% 28%, rgba(255,255,255,0.62) 0.6px, transparent 0.8px),
-    radial-gradient(circle at 38% 70%, rgba(255,255,255,0.42) 0.5px, transparent 0.8px),
-    radial-gradient(circle at 82% 82%, rgba(255,255,255,0.34) 0.5px, transparent 0.8px);
-  background-size: 180px 180px, 220px 220px, 160px 160px, 240px 240px;
-  animation: grainMove 14s steps(8) infinite;
 }
 
 .top-fade {
@@ -276,13 +272,14 @@ section {
   font-size: clamp(6rem, 18vw, 18rem);
   font-weight: 100;
   line-height: 0.9;
-  letter-spacing: -0.085em;
+  letter-spacing: -0.05em;
   text-transform: uppercase;
   color: var(--text-ghost);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
   transform: translate3d(0,0,0);
+  will-change: transform;
 }
 
 .eyebrow {
@@ -318,7 +315,7 @@ section {
   flex-direction: column;
   align-items: flex-start;
   line-height: 0.82;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.05em;
   text-transform: uppercase;
   will-change: transform;
 }
@@ -328,6 +325,7 @@ section {
   display: block;
   font-size: clamp(4.8rem, 13.8vw, 11.4rem);
   font-weight: 100;
+  letter-spacing: -0.05em;
 }
 
 .hero-title .solid {
@@ -337,8 +335,8 @@ section {
 
 .hero-title .outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,0.21);
-  text-stroke: 1px rgba(255,255,255,0.21);
+  -webkit-text-stroke: 0.5px rgba(255,255,255,0.24);
+  text-stroke: 0.5px rgba(255,255,255,0.24);
   margin-top: -0.06em;
   transform: translateX(0.14em);
 }
@@ -430,7 +428,7 @@ section {
   max-width: 780px;
   font-size: clamp(1.35rem, 2.5vw, 2.15rem);
   font-weight: 200;
-  letter-spacing: -0.036em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
@@ -512,7 +510,7 @@ section {
   margin: 0;
   font-size: clamp(1.9rem, 4vw, 3.5rem);
   font-weight: 200;
-  letter-spacing: -0.058em;
+  letter-spacing: -0.05em;
   line-height: 0.98;
   transition:
     color 0.35s var(--ease),
@@ -598,6 +596,54 @@ section {
   color: var(--text-faint);
 }
 
+/* contact button */
+.ghost-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 0;
+  margin: 8px 0 14px;
+  padding: 14px 22px;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.01);
+  transition:
+    border-color 0.35s var(--ease),
+    color 0.35s var(--ease),
+    transform 0.35s var(--ease),
+    background 0.35s var(--ease);
+  overflow: hidden;
+}
+
+.ghost-button::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle, rgba(245,130,32,0.18) 0%, rgba(245,130,32,0.08) 28%, rgba(245,130,32,0) 70%);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  z-index: -1;
+}
+
+.ghost-button:hover {
+  color: #fff;
+  border-color: rgba(245,130,32,0.4);
+  background: rgba(255,255,255,0.015);
+  transform: translateY(-2px);
+}
+
+.ghost-button:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* Reveal */
 .reveal {
   opacity: 0;
@@ -613,78 +659,60 @@ section {
   transform: translateY(0);
 }
 
-.reveal-delay-1 {
-  transition-delay: 0.08s;
-}
-
-.reveal-delay-2 {
-  transition-delay: 0.16s;
-}
-
-.reveal-delay-3 {
-  transition-delay: 0.24s;
-}
-
-.reveal-delay-4 {
-  transition-delay: 0.32s;
-}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
 
 /* Cursor */
 .cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 22px;
-  height: 22px;
-  margin-left: -11px;
-  margin-top: -11px;
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  margin-top: -13px;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 100;
-  border: 1px solid rgba(245,130,32,0.5);
+  z-index: 120;
+  border: 1px solid rgba(245,130,32,0.45);
   box-shadow:
-    0 0 0 1px rgba(245,130,32,0.06),
-    0 0 28px rgba(245,130,32,0.16);
+    0 0 0 1px rgba(245,130,32,0.05),
+    0 0 34px rgba(245,130,32,0.16);
   background: radial-gradient(
     circle,
-    rgba(245,130,32,0.15) 0%,
-    rgba(245,130,32,0.04) 46%,
+    rgba(245,130,32,0.16) 0%,
+    rgba(245,130,32,0.05) 42%,
     rgba(245,130,32,0) 74%
   );
   mix-blend-mode: screen;
   opacity: 0.95;
-  transform: translate3d(-120px,-120px,0);
+  transform: translate3d(-120px, -120px, 0);
   transition:
+    transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
     width 0.25s var(--ease),
     height 0.25s var(--ease),
     margin 0.25s var(--ease),
     opacity 0.25s var(--ease),
     border-color 0.25s var(--ease),
     box-shadow 0.25s var(--ease);
+  will-change: transform;
 }
 
 .cursor.is-active {
-  width: 58px;
-  height: 58px;
-  margin-left: -29px;
-  margin-top: -29px;
-  border-color: rgba(245,130,32,0.76);
+  width: 62px;
+  height: 62px;
+  margin-left: -31px;
+  margin-top: -31px;
+  border-color: rgba(245,130,32,0.7);
   box-shadow:
-    0 0 0 1px rgba(245,130,32,0.10),
-    0 0 52px rgba(245,130,32,0.24);
+    0 0 0 1px rgba(245,130,32,0.08),
+    0 0 58px rgba(245,130,32,0.26);
 }
 
 .cursor.is-hidden {
   opacity: 0;
-}
-
-@keyframes grainMove {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-2%, 1%); }
-  40% { transform: translate(1.5%, -1.5%); }
-  60% { transform: translate(-1%, 2%); }
-  80% { transform: translate(2%, 1%); }
-  100% { transform: translate(0, 0); }
 }
 
 @keyframes glowFloat {
@@ -737,6 +765,13 @@ section {
   }
 }
 
+@media (max-width: 768px) {
+  .hero-title .solid,
+  .hero-title .outline {
+    font-size: 15vw;
+  }
+}
+
 @media (max-width: 720px) {
   :root {
     --section-space: 100px;
@@ -780,7 +815,7 @@ section {
 
   .hero-title .solid,
   .hero-title .outline {
-    font-size: clamp(3.2rem, 18vw, 6rem);
+    font-size: clamp(3.2rem, 15vw, 6rem);
   }
 
   .hero-title .outline {
