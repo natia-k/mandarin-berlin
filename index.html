@@ -3,265 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MANDARIN | Facility Services Berlin</title>
+    <title>MANDARIN | BERLIN</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg: #050505;
             --orange: #f58220;
-            --orange-glow: rgba(245, 130, 32, 0.2);
+            --text-dim: rgba(255,255,255,0.4);
             --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.07);
-            --text-main: #e0e0e0;
-            --transition: cubic-bezier(0.16, 1, 0.3, 1);
+            --border: rgba(255, 255, 255, 0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
-            color: var(--text-main);
+            color: #fff;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── CUSTOM CURSOR & GLOW ── */
-        #cursor {
+        /* ── THE "ATMOSPHERE" ── */
+        .ambient-glow {
             position: fixed;
-            width: 10px; height: 10px;
-            background: var(--orange);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s;
-        }
-
-        #cursor-blur {
-            position: fixed;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
-        }
-
-        /* ── NAVIGATION ── */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .logo {
-            font-weight: 800;
-            letter-spacing: 5px;
-            font-size: 1.1rem;
-            color: #fff;
-        }
-
-        /* ── HERO SECTION ── */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 10%;
-            position: relative;
-        }
-
-        .giant-text {
-            position: absolute;
-            font-size: 20vw;
-            font-weight: 800;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.03);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            top: 20%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(245, 130, 32, 0.04) 0%, transparent 70%);
             z-index: -1;
             pointer-events: none;
         }
 
-        .hero-content h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 100;
-            line-height: 1;
-            margin-bottom: 1.5rem;
+        /* ── NAVIGATION (Floating & Thin) ── */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 40px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
         }
 
-        .hero-content h1 span {
-            font-weight: 800;
-            color: var(--orange);
-            display: block;
+        .logo { 
+            font-weight: 900; 
+            letter-spacing: 10px; 
+            font-size: 0.9rem; 
         }
 
-        /* ── ASYMMETRIC SERVICES GRID ── */
-        .grid-container {
-            padding: 100px 5%;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            transition: var(--transition) 0.6s;
+        /* ── HERO (The Editorial Look) ── */
+        header {
+            height: 100vh;
+            padding: 0 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
         }
 
-        .card:hover {
-            border-color: var(--orange);
-            background: rgba(255,255,255,0.05);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .card h3 {
-            font-weight: 400;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-
-        .card p {
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 10rem);
             font-weight: 100;
-            color: #999;
-            font-size: 0.9rem;
+            line-height: 0.85;
+            letter-spacing: -4px;
+            margin-left: -5px; /* Pulls text to edge for brutalist feel */
         }
 
-        /* Custom Card Sizes (The Anti-Boring part) */
-        .c-1 { grid-column: span 7; padding: 80px 40px; }
-        .c-2 { grid-column: span 5; margin-top: 50px; }
-        .c-3 { grid-column: span 4; }
-        .c-4 { grid-column: span 8; height: 300px; }
-        .c-5 { grid-column: span 6; margin-top: -40px; }
-        .c-6 { grid-column: span 6; }
+        .hero-title span {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+        }
 
-        .number {
-            position: absolute;
-            bottom: 20px; right: 20px;
-            font-size: 3rem;
-            font-weight: 800;
-            opacity: 0.05;
+        .hero-sub {
+            margin-top: 40px;
+            max-width: 350px;
+            font-weight: 200;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ── ASYMMETRIC CONTENT ── */
+        .section-label {
+            padding: 100px 10% 40px;
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--orange);
+        }
+
+        .services-list {
+            padding: 0 10% 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* No gaps, just lines */
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+            transition: 0.5s ease;
+            position: relative;
+        }
+
+        .service-item:hover {
+            padding-left: 30px;
+            border-bottom: 1px solid var(--orange);
+        }
+
+        .service-item h3 {
+            font-size: 2.5rem;
+            font-weight: 100;
+        }
+
+        .service-item .desc {
+            max-width: 300px;
+            font-weight: 200;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-align: right;
+        }
+
+        /* ── THE ORANGE BUTTON ── */
+        .cta {
+            position: relative;
+            display: inline-block;
+            margin-top: 50px;
+            padding: 20px 40px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .cta:hover {
+            border-color: var(--orange);
+            box-shadow: 0 0 30px rgba(245, 130, 32, 0.2);
         }
 
         /* ── FOOTER ── */
         footer {
-            padding: 100px 10% 40px;
-            border-top: 1px solid var(--glass-border);
+            padding: 100px 10% 60px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .footer-info p {
-            font-size: 0.7rem;
-            color: #444;
+            font-size: 0.6rem;
+            color: var(--text-dim);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-top: 5px;
         }
 
-        @media (max-width: 900px) {
-            .card { grid-column: span 12 !important; margin: 0 !important; }
-            .hero-content h1 { font-size: 4rem; }
+        @media (max-width: 768px) {
+            .service-item { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .service-item .desc { text-align: left; }
+            .hero-title { font-size: 4.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-blur"></div>
+    <div class="ambient-glow"></div>
 
     <nav>
         <div class="logo">MANDARIN</div>
-        <div style="font-size: 0.7rem; opacity: 0.5; letter-spacing: 3px;">FACILITY SERVICES</div>
+        <div style="font-size: 0.6rem; letter-spacing: 3px; opacity: 0.4;">BERLIN · 2024</div>
     </nav>
 
-    <div class="hero">
-        <div class="giant-text">BERLIN</div>
-        <div class="hero-content">
-            <h1>Einfachheit <span>Präzision.</span></h1>
-            <p style="max-width: 400px; font-weight: 100; color: #777;">
-                Facility Management neu gedacht. Reinigung, Sicherheit und Instandhaltung mit modernsten Standards.
-            </p>
-        </div>
-    </div>
+    <header>
+        <h1 class="hero-title">
+            FACILITY<br>
+            <span>SERVICES</span>
+        </h1>
+        <p class="hero-sub">Exzellenz in der Verwaltung, Instandhaltung und Sicherheit Ihrer Immobilien.</p>
+        <a href="mailto:info@mandarin-berlin.de" class="cta">Anfrage Senden</a>
+    </header>
 
-    <section class="grid-container">
-        <div class="card c-1">
-            <span class="number">01</span>
-            <h3>Gebäudemanagement</h3>
-            <p>Ganzheitliche Betreuung Ihrer Immobilienbestände in Berlin und Umland.</p>
-        </div>
-        <div class="card c-2">
-            <span class="number">02</span>
-            <h3>Reinigung</h3>
-            <p>Unterhaltsreinigung mit System und ökologischem Bewusstsein.</p>
-        </div>
-        <div class="card c-3">
-            <span class="number">03</span>
-            <h3>Sicherheit</h3>
-            <p>Objektschutz und Empfangsdienste für höchste Diskretion.</p>
-        </div>
-        <div class="card c-4">
-            <span class="number">04</span>
-            <h3>Instandhaltung</h3>
-            <p>Technische Wartung und schnelle Reparaturdienste durch Fachpersonal.</p>
-        </div>
-        <div class="card c-5">
-            <span class="number">05</span>
-            <h3>Außenanlagen</h3>
-            <p>Gartenpflege und Winterdienst für ein gepflegtes Erscheinungsbild.</p>
-        </div>
-        <div class="card c-6">
-            <span class="number">06</span>
-            <h3>Logistik</h3>
-            <p>Interne Postdienste und Umzugsmanagement für Unternehmen.</p>
-        </div>
-    </section>
+    <div class="section-label">Dienstleistungen</div>
 
-    <footer>
-        <div class="footer-info">
-            <p>Mandarin Facility Services GmbH</p>
-            <p>Storkower Str. 118, 10407 Berlin</p>
-            <p>HRB 210993 B · Amtsgericht Charlottenburg</p>
+    <section class="services-list">
+        <div class="service-item">
+            <h3>01 Management</h3>
+            <p class="desc">Ganzheitliche administrative Steuerung und Werterhalt Ihrer Objekte.</p>
         </div>
-        <div style="color: var(--orange); font-size: 2rem; font-weight: 800;">M</div>
-    </footer>
-
-    <script>
-        const cursor = document.getElementById('cursor');
-        const blur = document.getElementById('cursor-blur');
-
-        document.addEventListener('mousemove', (e) => {
-            // Smooth custom cursor
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            // Soft glow background
-            blur.style.left = e.clientX + 'px';
-            blur.style.top = e.clientY + 'px';
-        });
-
-        // Effect on click
-        document.addEventListener('mousedown', () => {
-            blur.style.width = '200px';
-            blur.style.height = '200px';
-        });
-        document.addEventListener('mouseup', () => {
-            blur.style.width = '400px';
-            blur.style.height = '400px';
-        });
-    </script>
-</body>
-</html>
+        <div class
