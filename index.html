@@ -25,16 +25,23 @@
 
     <header class="navbar">
       <div class="nav-inner">
-        <a href="#top" class="brand" aria-label="Mandarin Facility Services Startseite">
+        <a href="#top" class="brand" aria-label="Mandarin Facility Services Home">
           <span>MANDARIN</span>
           <span class="brand-mark"></span>
         </a>
 
-        <nav class="nav-links" aria-label="Hauptnavigation">
-          <a href="#leistungen">Leistungen</a>
-          <a href="#profil">Profil</a>
-          <a href="#kontakt">Kontakt</a>
-        </nav>
+        <div class="nav-right">
+          <nav class="nav-links" aria-label="Main navigation">
+            <a href="#leistungen" data-i18n="navServices">Leistungen</a>
+            <a href="#profil" data-i18n="navProfile">Profil</a>
+            <a href="#kontakt" data-i18n="navContact">Kontakt</a>
+          </nav>
+
+          <div class="lang-switch" aria-label="Language switcher">
+            <button class="lang-btn is-active" data-lang="de" type="button">DE</button>
+            <button class="lang-btn" data-lang="en" type="button">EN</button>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -43,23 +50,23 @@
         <div class="container">
           <div class="hero-grid">
             <div class="hero-copy reveal">
-              <div class="hero-ghost-word" id="heroGhost">Berlin</div>
+              <div class="hero-ghost-word" id="heroGhost" data-i18n="ghostWord">Berlin</div>
 
-              <div class="eyebrow">Mandarin Facility Services GmbH</div>
+              <div class="eyebrow" data-i18n="eyebrow">Mandarin Facility Services GmbH</div>
 
               <h1 class="hero-title" id="heroTitle" aria-label="Facility Services">
-                <span class="solid">Facility</span>
-                <span class="outline">Services</span>
+                <span class="solid" data-i18n="heroTitleSolid">Facility</span>
+                <span class="outline" data-i18n="heroTitleOutline">Services</span>
               </h1>
 
               <div class="hero-body">
-                <p class="hero-text">
+                <p class="hero-text" data-i18n="heroText">
                   Professionelle Bewirtschaftung, technische Betreuung und operative
                   Gebäudeservices für Wohn- und Gewerbeimmobilien in Berlin —
                   strukturiert, diskret und auf dauerhaft funktionierende Abläufe ausgerichtet.
                 </p>
 
-                <div class="hero-side">
+                <div class="hero-side" data-i18n="heroSide">
                   Verwaltung · Reinigung · Sicherheit · Technik
                 </div>
               </div>
@@ -73,8 +80,8 @@
       <section class="section" id="leistungen">
         <div class="container">
           <div class="section-head reveal">
-            <div class="section-index">01 / Leistungen</div>
-            <h2 class="section-title">
+            <div class="section-index">01 / <span data-i18n="sectionServicesLabel">Leistungen</span></div>
+            <h2 class="section-title" data-i18n="servicesIntro">
               Ganzheitliches Facility Management als präzise koordinierte
               Disziplin — nicht als Summe von Einzelleistungen.
             </h2>
@@ -83,8 +90,8 @@
           <div class="services-wrap">
             <div class="service-row reveal reveal-delay-1">
               <div class="service-no">01</div>
-              <h3 class="service-title">Objektmanagement</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service1Title">Objektmanagement</h3>
+              <p class="service-desc" data-i18n="service1Desc">
                 Professionelle Bewirtschaftung und administrative Betreuung Ihrer
                 Liegenschaft — transparent, strukturiert und vorausschauend.
               </p>
@@ -92,8 +99,8 @@
 
             <div class="service-row reveal reveal-delay-2">
               <div class="service-no">02</div>
-              <h3 class="service-title">Reinigung &amp; Hygiene</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service2Title">Reinigung &amp; Hygiene</h3>
+              <p class="service-desc" data-i18n="service2Desc">
                 Von der täglichen Unterhaltsreinigung bis zur Sonderreinigung —
                 professionelle Hygiene als Standard, nicht als Option.
               </p>
@@ -101,8 +108,8 @@
 
             <div class="service-row reveal reveal-delay-3">
               <div class="service-no">03</div>
-              <h3 class="service-title">Sicherheit &amp; Empfang</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service3Title">Sicherheit &amp; Empfang</h3>
+              <p class="service-desc" data-i18n="service3Desc">
                 Diskreter Objektschutz, qualifizierter Empfangsservice und
                 kontrollierte Zugänge für verlässliche Abläufe vor Ort.
               </p>
@@ -110,8 +117,8 @@
 
             <div class="service-row reveal reveal-delay-4">
               <div class="service-no">04</div>
-              <h3 class="service-title">Technische Betreuung</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service4Title">Technische Betreuung</h3>
+              <p class="service-desc" data-i18n="service4Desc">
                 Vorausschauende Wartung, Haustechnik und begleitende
                 Servicearbeiten — damit nichts dem Zufall überlassen wird.
               </p>
@@ -119,8 +126,8 @@
 
             <div class="service-row reveal reveal-delay-1">
               <div class="service-no">05</div>
-              <h3 class="service-title">Außenanlagenpflege</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service5Title">Außenanlagenpflege</h3>
+              <p class="service-desc" data-i18n="service5Desc">
                 Ganzjährige Pflege von Außenbereichen und Grünanlagen
                 für einen geordneten, funktionalen und gepflegten Objektauftritt.
               </p>
@@ -128,8 +135,8 @@
 
             <div class="service-row reveal reveal-delay-2">
               <div class="service-no">06</div>
-              <h3 class="service-title">Winterdienst</h3>
-              <p class="service-desc">
+              <h3 class="service-title" data-i18n="service6Title">Winterdienst</h3>
+              <p class="service-desc" data-i18n="service6Desc">
                 Zuverlässige saisonale Einsatzleistungen zur Sicherung
                 von Zugängen, Verkehrsflächen und umliegenden Außenbereichen.
               </p>
@@ -141,22 +148,22 @@
       <section class="section" id="profil">
         <div class="container">
           <div class="about-grid reveal">
-            <div class="section-index">02 / Profil</div>
+            <div class="section-index">02 / <span data-i18n="sectionProfileLabel">Profil</span></div>
 
             <div class="about-copy">
-              <p>
+              <p data-i18n="aboutText1">
                 Mandarin Facility Services GmbH steht für professionelles,
                 ganzheitliches Immobilienmanagement in Berlin — mit einem klaren
                 Fokus auf Verlässlichkeit, Präzision und diskrete Ausführung.
               </p>
-              <p>
+              <p data-i18n="aboutText2">
                 Wir verstehen Facility Management nicht als reinen Kostenfaktor,
                 sondern als strukturelles Instrument zur Werterhaltung und
                 langfristigen Stabilisierung von Immobilien.
               </p>
             </div>
 
-            <div class="about-side">
+            <div class="about-side" data-i18n="aboutSide">
               Berlin · Objektbetreuung<br />
               Gebäudebetrieb · Präzision<br />
               Diskret · Verlässlich
@@ -169,21 +176,21 @@
     <footer class="footer" id="kontakt">
       <div class="container">
         <div class="footer-grid reveal">
-          <div class="section-index">03 / Kontakt</div>
+          <div class="section-index">03 / <span data-i18n="sectionContactLabel">Kontakt</span></div>
 
           <div class="legal">
             <h3 class="footer-title">Mandarin Facility Services GmbH</h3>
             <p>Storkower Str. 118, D-10407 Berlin</p>
-            <p>Amtsgericht Charlottenburg (Berlin)</p>
+            <p data-i18n="legalCourt">Amtsgericht Charlottenburg (Berlin)</p>
             <p>HRB 210993 B</p>
           </div>
 
           <div class="footer-right">
-            <p>Berlin</p>
-            <a class="ghost-button" href="mailto:info@mandarin-facility.de">
+            <p data-i18n="footerCity">Berlin</p>
+            <a class="ghost-button" href="mailto:info@mandarin-facility.de" data-i18n="footerButton">
               E-Mail senden
             </a>
-            <p class="footer-note">Weitere Kontaktdaten auf Anfrage</p>
+            <p class="footer-note" data-i18n="footerNote">Weitere Kontaktdaten auf Anfrage</p>
           </div>
         </div>
       </div>
