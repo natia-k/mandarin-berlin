@@ -1,24 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cursor = document.querySelector(".cursor");
   const heroTitle = document.getElementById("heroTitle");
-  const hoverTargets = document.querySelectorAll("a, .service-row");
+  const heroGhost = document.getElementById("heroGhost");
+  const hoverTargets = document.querySelectorAll("a, .service-row, .ghost-button");
   const reveals = document.querySelectorAll(".reveal");
 
   let mouseX = -120;
   let mouseY = -120;
   let currentX = -120;
   let currentY = -120;
-  let rafId = null;
+  let cursorRaf = null;
 
   const animateCursor = () => {
-    currentX += (mouseX - currentX) * 0.18;
-    currentY += (mouseY - currentY) * 0.18;
+    currentX += (mouseX - currentX) * 0.12;
+    currentY += (mouseY - currentY) * 0.12;
 
     if (cursor) {
       cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
     }
 
-    rafId = requestAnimationFrame(animateCursor);
+    cursorRaf = requestAnimationFrame(animateCursor);
   };
 
   window.addEventListener("mousemove", (e) => {
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cursor.classList.remove("is-hidden");
     }
 
-    if (!rafId) {
+    if (!cursorRaf) {
       animateCursor();
     }
 
@@ -41,39 +42,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const dx = (e.clientX - centerX) / window.innerWidth;
       const dy = (e.clientY - centerY) / window.innerHeight;
 
-      heroTitle.style.transform = `translate3d(${dx * 14}px, ${dy * 10}px, 0)`;
+      heroTitle.style.transform = `translate3d(${dx * 10}px, ${dy * 7}px, 0)`;
     }
   });
 
   window.addEventListener("mouseleave", () => {
-    if (cursor) {
-      cursor.classList.add("is-hidden");
-    }
-    if (heroTitle) {
-      heroTitle.style.transform = "translate3d(0,0,0)";
-    }
+    if (cursor) cursor.classList.add("is-hidden");
+    if (heroTitle) heroTitle.style.transform = "translate3d(0,0,0)";
   });
 
   hoverTargets.forEach((el) => {
     el.addEventListener("mouseenter", () => {
-      if (cursor) {
-        cursor.classList.add("is-active");
-      }
+      if (cursor) cursor.classList.add("is-active");
     });
 
     el.addEventListener("mouseleave", () => {
-      if (cursor) {
-        cursor.classList.remove("is-active");
-      }
+      if (cursor) cursor.classList.remove("is-active");
     });
   });
 
-  const observer = new IntersectionObserver(
+  const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     },
@@ -83,5 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
 
-  reveals.forEach((el) => observer.observe(el));
+  reveals.forEach((el) => revealObserver.observe(el));
+
+  const updateParallax = () => {
+    if (heroGhost) {
+      const y = window.scrollY * 0.18;
+      heroGhost.style.transform = `translate3d(0, ${y}px, 0)`;
+    }
+  };
+
+  updateParallax();
+  window.addEventListener("scroll", updateParallax, { passive: true });
 });
