@@ -268,39 +268,6 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
 </section>
 </main>
 <footer class="footer"><div class="wrap footer-bottom"><p>© Mandarin Facility Services GmbH</p><div class="footer-bottom-links"><a href="index.html">Home</a><a href="index.html#contact"><span data-i18n="nav.contact">Contact</span></a></div></div></footer>
-<script id="mandarin-google-sheets-jobs-js">
-(function(){
-  const SHEET_CSV_URL = "PASTE_GOOGLE_SHEET_CSV_URL_HERE";
-  const list = document.querySelector("#jobs-list");
-  const refreshBtn = document.querySelector("[data-jobs-refresh]");
-  if(!list) return;
-  const fallbackJobs = [
-    {Title:"Reinigung & Hygiene (m/w/d)", Location:"Berlin", Type:"Teilzeit / Vollzeit", Description:"Reinigung, Hygiene und täglicher Gebäudebetrieb.", PDF:"#", Status:"open"},
-    {Title:"Sicherheit & Empfang (m/w/d)", Location:"Berlin", Type:"Schicht / Objekt", Description:"Empfang, Präsenz vor Ort und operative Unterstützung.", PDF:"#", Status:"open"},
-    {Title:"Haustechnik & Objektbetreuung (m/w/d)", Location:"Berlin", Type:"Vollzeit", Description:"Technische Kontrolle, kleinere Reparaturen und Objektpflege.", PDF:"#", Status:"open"}
-  ];
-  function parseCSV(text){
-    const rows=[]; let row=[]; let value=""; let q=false;
-    for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1]; if(c=='"'&&q&&n=='"'){value+='"';i++;} else if(c=='"'){q=!q;} else if(c==","&&!q){row.push(value.trim());value="";} else if((c=="\n"||c=="\r")&&!q){if(value||row.length){row.push(value.trim());rows.push(row);row=[];value="";} if(c=="\r"&&n=="\n")i++;} else value+=c;}
-    if(value||row.length){row.push(value.trim());rows.push(row);}
-    const headers=rows.shift()||[]; return rows.filter(r=>r.some(Boolean)).map(r=>{const o={};headers.forEach((h,i)=>o[h.trim()]=(r[i]||"").trim());return o;});
-  }
-  function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
-  function renderJobs(jobs){
-    const open=jobs.filter(j=>["open","active","yes"].includes(String(j.Status||"open").toLowerCase()));
-    if(!open.length){list.innerHTML='<div class="jobs-empty">No open positions at the moment.</div>';return;}
-    list.innerHTML=open.map(j=>{const title=esc(j.Title||"Open position"),loc=esc(j.Location||"Berlin"),type=esc(j.Type||""),desc=esc(j.Description||""),pdf=esc(j.PDF||"#"),hasPDF=pdf&&pdf!="#";return `<article class="jobs-row"><div class="jobs-title"><strong>${title}</strong>${desc?`<span>${desc}</span>`:""}</div><div class="jobs-meta">${loc}</div><div class="jobs-meta jobs-type">${type}</div><a class="jobs-apply" href="${hasPDF?pdf:'index.html#contact'}" ${hasPDF?'target="_blank" rel="noopener"':""}>${hasPDF?"View PDF":"Contact"}</a></article>`}).join("");
-  }
-  async function loadJobs(){
-    list.innerHTML='<div class="jobs-empty">Loading current positions…</div>';
-    if(SHEET_CSV_URL.includes("PASTE_")){renderJobs(fallbackJobs);return;}
-    try{const res=await fetch(SHEET_CSV_URL,{cache:"no-store"});if(!res.ok)throw new Error("Could not load jobs");renderJobs(parseCSV(await res.text()));}
-    catch(e){console.error(e);list.innerHTML='<div class="jobs-error">Jobs could not be loaded right now. Showing example structure.</div>';setTimeout(()=>renderJobs(fallbackJobs),700);}
-  }
-  if(refreshBtn) refreshBtn.addEventListener("click",loadJobs);
-  loadJobs();
-})();
-</script>
 <script id="mandarin-language-switch-fix">
 (function(){
   const dict={
@@ -326,6 +293,146 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
   });
   const saved=localStorage.getItem("mandarin-lang");
   setLang(saved==="en"?"en":"de");
+})();
+</script>
+
+
+<script id="mandarin-google-sheets-jobs-js">
+(function(){
+  const SHEET_CSV_URL = "PASTE_GOOGLE_SHEET_CSV_URL_HERE";
+  const list = document.querySelector("#jobs-list");
+  const refreshBtn = document.querySelector("[data-jobs-refresh]");
+  if(!list) return;
+
+  const fallbackJobs = [
+    {
+      Title:"Reinigung & Hygiene (m/w/d)",
+      Location:"Berlin",
+      Type:"Teilzeit / Vollzeit",
+      Description:"Reinigung, Hygiene und tägliche Unterstützung im Gebäudebetrieb.",
+      PDF:"#",
+      Status:"open"
+    },
+    {
+      Title:"Sicherheit & Empfang (m/w/d)",
+      Location:"Berlin",
+      Type:"Schicht / Objekt",
+      Description:"Empfang, Präsenz vor Ort und operative Unterstützung in betreuten Objekten.",
+      PDF:"#",
+      Status:"open"
+    },
+    {
+      Title:"Haustechnik & Objektbetreuung (m/w/d)",
+      Location:"Berlin",
+      Type:"Vollzeit",
+      Description:"Technische Kontrolle, kleinere Reparaturen und zuverlässige Objektpflege.",
+      PDF:"#",
+      Status:"open"
+    }
+  ];
+
+  function parseCSV(text){
+    const rows=[]; let row=[]; let value=""; let q=false;
+    for(let i=0;i<text.length;i++){
+      const c=text[i], n=text[i+1];
+      if(c === '"' && q && n === '"'){ value += '"'; i++; }
+      else if(c === '"'){ q = !q; }
+      else if(c === "," && !q){ row.push(value.trim()); value=""; }
+      else if((c === "\n" || c === "\r") && !q){
+        if(value || row.length){ row.push(value.trim()); rows.push(row); row=[]; value=""; }
+        if(c === "\r" && n === "\n") i++;
+      } else value += c;
+    }
+    if(value || row.length){ row.push(value.trim()); rows.push(row); }
+
+    const headers = rows.shift() || [];
+    return rows.filter(r => r.some(Boolean)).map(r => {
+      const item = {};
+      headers.forEach((h,i) => item[h.trim()] = (r[i] || "").trim());
+      return item;
+    });
+  }
+
+  function esc(s){
+    return String(s || "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[c]));
+  }
+
+  function currentLang(){
+    return document.documentElement.lang === "en" ? "en" : "de";
+  }
+
+  function getField(job, deKey, enKey, fallbackKey){
+    const lang = currentLang();
+    return lang === "en"
+      ? (job[enKey] || job[deKey] || job[fallbackKey] || "")
+      : (job[deKey] || job[enKey] || job[fallbackKey] || "");
+  }
+
+  function renderJobs(jobs){
+    const lang = currentLang();
+    const open = jobs.filter(j => {
+      const status = String(j.Status || j.status || "open").toLowerCase();
+      return ["open","active","yes",""].includes(status);
+    });
+
+    if(!open.length){
+      list.innerHTML = '<div class="jobs-empty">' + (lang === "en" ? "No open positions at the moment." : "Aktuell sind keine offenen Stellen verfügbar.") + '</div>';
+      return;
+    }
+
+    list.innerHTML = open.map(j => {
+      const title = esc(j.Title || j.title || "Open position");
+      const loc = esc(getField(j, "location_de", "location_en", "Location") || j.location || "Berlin");
+      const type = esc(getField(j, "type_de", "type_en", "Type") || j.type || "");
+      const desc = esc(getField(j, "description_de", "description_en", "Description") || j.description || "");
+      const pdf = esc(j.PDF || j.pdf || j.link || "#");
+      const hasPDF = pdf && pdf !== "#";
+
+      return `<article class="jobs-row">
+        <div class="jobs-title">
+          <strong>${title}</strong>
+          ${desc ? `<span>${desc}</span>` : ""}
+        </div>
+        <div class="jobs-meta">${loc}</div>
+        <div class="jobs-meta jobs-type">${type}</div>
+        <a class="jobs-apply" href="${hasPDF ? pdf : 'index.html#contact'}" ${hasPDF ? 'target="_blank" rel="noopener"' : ""}>
+          ${hasPDF ? (lang === "en" ? "View PDF" : "PDF ansehen") : (lang === "en" ? "Contact" : "Kontakt")}
+        </a>
+      </article>`;
+    }).join("");
+  }
+
+  async function loadJobs(){
+    renderJobs(fallbackJobs);
+
+    if(!SHEET_CSV_URL || SHEET_CSV_URL.includes("PASTE_")) return;
+
+    try{
+      const response = await fetch(SHEET_CSV_URL, { cache:"no-store" });
+      if(!response.ok) throw new Error("Could not load Google Sheet.");
+      const text = await response.text();
+      const sheetJobs = parseCSV(text);
+      if(sheetJobs.length) renderJobs(sheetJobs);
+    } catch(error){
+      console.warn("Google Sheet not loaded. Fallback jobs remain visible.", error);
+    }
+  }
+
+  if(refreshBtn) refreshBtn.addEventListener("click", loadJobs);
+
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", function(){
+      window.requestAnimationFrame(() => renderJobs(fallbackJobs));
+    });
+  });
+
+  loadJobs();
 })();
 </script>
 
