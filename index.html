@@ -655,6 +655,12 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
 @media(max-width:620px){.jobs-teaser-card{padding:30px 22px;border-radius:22px}.jobs-teaser-button{width:100%}}
 </style>
 
+<style id="mandarin-mobile-language-fix">
+.mobile-lang{display:flex!important;gap:10px!important;margin-top:34px!important}
+.mobile-lang .lang-btn,.lang-switch .lang-btn{pointer-events:auto!important}
+.lang-btn.is-active{background:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.96)!important}
+</style>
+
 </head>
 
 <body>
@@ -681,8 +687,8 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
 
       <div class="nav-right">
         <div class="lang-switch" aria-label="Sprache / Language">
-          <button class="lang-btn is-active" data-lang="de" type="button">DE</button>
-          <button class="lang-btn" data-lang="en" type="button">EN</button>
+          <button class="lang-btn is-active" data-lang="de" type="button" data-lang="de">DE</button>
+          <button class="lang-btn" data-lang="en" type="button" data-lang="en">EN</button>
         </div>
         <button class="hamburger" id="hamburger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
           <span></span><span></span><span></span>
@@ -702,8 +708,8 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
     <a href="#kontakt"   data-i18n="navContact">Kontakt</a>
     <a href="#impressum" data-i18n="navImprint">Impressum</a>
     <div class="mobile-lang">
-      <button class="lang-btn is-active" data-lang="de" type="button">DE</button>
-      <button class="lang-btn" data-lang="en" type="button">EN</button>
+      <button class="lang-btn is-active" data-lang="de" type="button" data-lang="de">DE</button>
+      <button class="lang-btn" data-lang="en" type="button" data-lang="en">EN</button>
     </div>
   </nav>
 
@@ -1324,7 +1330,7 @@ a.btn-primary[href^="mailto:"]:hover,.jobs-compact-action .btn-primary:hover{bac
 
       newsIntro:"Updates from our operations and the social context of our properties.",
       newsTag1:"Current", newsTitle1:"We're hiring",
-      newsText1:"We are currently looking for reliable staff in cleaning, security, administration, and technical support. Open positions are listed in the Jobs section.",
+      newsText1:"We are currently looking for reliable staff in cleaning, security, administration, and technical support. <span data-i18n="jobs.page.title">Open positions</span> are listed in the Jobs section.",
       newsTag2:"Properties", newsTitle2:"New projects in Berlin",
       newsText2:"Mandarin is currently managing additional community housing and social properties across Berlin. Contact us if you're interested in working together.",
       newsTag3:"Community", newsTitle3:"Volunteer engagement",
@@ -1926,13 +1932,41 @@ document.querySelectorAll('.service-row').forEach((row, i) => {
     <div class="jobs-teaser-card reveal">
       <div>
         <span class="jobs-teaser-kicker">07 / Jobs</span>
-        <h2 class="jobs-teaser-title">Open positions at Mandarin.</h2>
+        <h2 class="jobs-teaser-title"><span data-i18n="jobs.teaser.title">Open positions at Mandarin.</span></h2>
       </div>
-      <p class="jobs-teaser-copy">Cleaning, security, technical support, property care and administration roles for Berlin. Current openings are managed from a simple Google Sheet.</p>
-      <a class="jobs-teaser-button" href="jobs.html">View all positions</a>
+      <p class="jobs-teaser-copy"><span data-i18n="jobs.teaser.copy">Cleaning, security, technical support, property care and administration roles for Berlin. <span data-i18n="jobs.page.current">Current openings</span> are managed from a simple Google Sheet.</span></p>
+      <a class="jobs-teaser-button" href="jobs.html"><span data-i18n="jobs.teaser.button">View all positions</span></a>
     </div>
   </div>
 </section>
+
+<script id="mandarin-language-switch-fix">
+(function(){
+  const dict={
+    de:{"nav.about":"Über uns","nav.news":"Aktuelles","nav.services":"Leistungen","nav.process":"Ablauf","nav.jobs":"Jobs","nav.community":"Soziales","nav.contact":"Kontakt","jobs.teaser.title":"Offene Stellen bei Mandarin.","jobs.teaser.copy":"Reinigung, Sicherheit, technische Unterstützung, Objektpflege und Verwaltung in Berlin. Aktuelle Stellen können über ein einfaches Google Sheet gepflegt werden.","jobs.teaser.button":"Alle Stellen ansehen","jobs.page.label":"Jobs / Stellenangebote","jobs.page.title":"Offene Stellen","jobs.page.sub":"Aktuelle Möglichkeiten bei Mandarin Facility Services in Berlin. Stellenanzeigen können vom Kunden über ein Google Sheet aktualisiert werden.","jobs.page.current":"Aktuelle Stellen","jobs.page.refresh":"Aktualisieren","jobs.page.note":"Google-Sheet-Spalten: Title, Location, Type, Start, Description, PDF, Status. Nur Zeilen mit Status = open werden angezeigt."},
+    en:{"nav.about":"About","nav.news":"News","nav.services":"Services","nav.process":"Process","nav.jobs":"Jobs","nav.community":"Community","nav.contact":"Contact","jobs.teaser.title":"Open positions at Mandarin.","jobs.teaser.copy":"Cleaning, security, technical support, property care and administration roles for Berlin. Current openings are managed from a simple Google Sheet.","jobs.teaser.button":"View all positions","jobs.page.label":"Jobs / Open positions","jobs.page.title":"Open positions","jobs.page.sub":"Current opportunities at Mandarin Facility Services in Berlin. Job listings can be updated by the client through a Google Sheet.","jobs.page.current":"Current openings","jobs.page.refresh":"Refresh","jobs.page.note":"Google Sheet columns: Title, Location, Type, Start, Description, PDF, Status. Only rows with Status = open are shown."}
+  };
+  function setLang(lang){
+    if(!dict[lang]) return;
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(dict[lang][k]) el.textContent=dict[lang][k];});
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      const b=(btn.dataset.lang||btn.textContent||"").trim().toLowerCase();
+      const active=b===lang; btn.classList.toggle("is-active",active); btn.setAttribute("aria-pressed",active?"true":"false");
+    });
+    localStorage.setItem("mandarin-lang",lang);
+  }
+  document.querySelectorAll(".lang-btn").forEach(btn=>{
+    const lang=(btn.dataset.lang||btn.textContent||"").trim().toLowerCase();
+    if(lang==="de"||lang==="en"){
+      btn.dataset.lang=lang; btn.type="button";
+      btn.addEventListener("click",e=>{e.preventDefault(); setLang(lang);});
+    }
+  });
+  const saved=localStorage.getItem("mandarin-lang");
+  setLang(saved==="en"?"en":"de");
+})();
+</script>
 
 </body>
 </html>
